@@ -21,7 +21,7 @@ jobs:
                 node-version: '14'
 
             - name: Move to FE directory
-              run: cd frontend
+              run: cd /home/runner/work/aws-todo/aws-todo/frontend
 
             - name: Install dependencies
               run: npm install
