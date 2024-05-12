@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import TodoList from './TodoList';
 import CompletedTodoList from './CompletedTodoList';
@@ -11,10 +10,6 @@ function App() {
   const [completedTodos, setcompletedTodos] = useState([]);
   const API_ENDPOINT = `${BASE_URL}/api/v1/todo`;
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
   const fetchTodos = async () => {
     try {
       const response = await fetch(API_ENDPOINT);
@@ -25,6 +20,10 @@ function App() {
       console.error('Error fetching todos:', error);
     }
   };
+
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
 
   const addTodo = async (description) => {
     try {
@@ -58,7 +57,7 @@ function App() {
     if (todo) {
       try {
         todo.complete = true;
-        const response = await fetch(API_ENDPOINT, {
+        await fetch(API_ENDPOINT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
