@@ -4,10 +4,12 @@ import TodoList from './TodoList';
 import CompletedTodoList from './CompletedTodoList';
 import AddTodoForm from './AddTodoForm';
 import './App.css';
+import { BASE_URL } from './config';
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [completedTodos, setcompletedTodos] = useState([]);
+  const API_ENDPOINT = `${BASE_URL}/api/v1/todo`;
 
   useEffect(() => {
     fetchTodos();
@@ -15,7 +17,7 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/v1/todo');
+      const response = await fetch(API_ENDPOINT);
       const data = await response.json();
       setTodos(data.filter(t => !t.complete));
       setcompletedTodos(data.filter(t => t.complete));
@@ -26,7 +28,7 @@ function App() {
 
   const addTodo = async (description) => {
     try {
-      const response = await fetch('http://localhost:8080/api/v1/todo', {
+      const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ function App() {
 
   const deleteTodo = async (id) => {
     try {
-      await fetch(`http://localhost:8080/api/v1/todo/${id}`, {
+      await fetch(`${API_ENDPOINT}/${id}`, {
         method: 'DELETE',
       });
       fetchTodos();
@@ -56,7 +58,7 @@ function App() {
     if (todo) {
       try {
         todo.complete = true;
-        const response = await fetch('http://localhost:8080/api/v1/todo', {
+        const response = await fetch(API_ENDPOINT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
