@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TodoList from './TodoList';
 import CompletedTodoList from './CompletedTodoList';
 import AddTodoForm from './AddTodoForm';
@@ -10,7 +10,7 @@ function App() {
   const [completedTodos, setcompletedTodos] = useState([]);
   const API_ENDPOINT = `${BASE_URL}/api/v1/todo`;
 
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       const response = await fetch(API_ENDPOINT);
       const data = await response.json();
@@ -19,7 +19,7 @@ function App() {
     } catch (error) {
       console.error('Error fetching todos:', error);
     }
-  };
+  }, [API_ENDPOINT]);
 
   useEffect(() => {
     fetchTodos();
